@@ -1,5 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <time.h>
+//#include <conio.h>  
 
 
 void ascii_character(void);
@@ -8,7 +11,9 @@ void guess_secret_num(void);
 
 void lecture_carac(void);
 
-void menu_colors(void);
+int menu_colors(void);
+
+/*int menu_colors_2(void);*/
 
 void addTen(int *n);
 
@@ -26,12 +31,11 @@ int main(void){
     int n = 59;
     int m = 111;    
 
-    
-
     //ascii_character();
     //guess_secret_num();
     //lecture_carac();
-    //menu_colors();
+    //int menu_col = menu_colors(); 
+    //printf("Un message d'erreur: %d\n", menu_col);
     
     /*printf("n before %d\n", n);
     addTen(&n);
@@ -56,28 +60,41 @@ void ascii_character(void){
     }
 }
 void guess_secret_num(void){
-    int secret_num = 269;
+    time_t t1;  // declare time variable
+    srand ( (unsigned) time (&t1));
+    int secret_num = rand() % 1000;
     int guess;
     int count = 1;
-
+    int recommended = 500;
+    printf("I choosed a secret number between 1 and 1000. \n");
+    printf("Try to guess it\n");
+    int local_min = 1, local_max = 1000;
     while (count != 10){
-        printf("Enter a variable between 0 and 1000: \n");
+        printf("Enter a variable between %d and %d: ", local_min, local_max);
+        printf("Recommended: %d\n", recommended);
         scanf("%d", &guess);
+        
         if (guess == secret_num){
             printf("YOU WIN!\n");
-            printf("You did %d trys\n", count);
+            printf("You did %d try", count);
+            if(count >= 2) printf("s\n");
             break;
-        } 
+        }
         else if (guess < secret_num) {
             printf("Greater than your guess\n");
+            local_min = guess;
             count++;
+            recommended = ((local_max - local_min) / 2) + local_min;
             }
         else {
             printf("Less than your guess\n");
             count++;
+            local_max = guess;
+            recommended = ((local_max - local_min) / 2) + local_min;
             }
     }
-    if (count == 10) printf("Sorry You have no more trys, try again\n");
+    if (count == 10) printf("Sorry You loosed, try again\n");
+    printf("The secret number was: %d\n", secret_num);
 }
 
 void lecture_carac(void){
@@ -93,41 +110,64 @@ void lecture_carac(void){
     printf("* %c *\n", char2);
 }
 
-void menu_colors(void){
-    char ch[6];
-    char arr[11][10] = {"Green", "Red", "Blue", "Yellow", "Black", "White", "Brown", "Orange", "Brown", "Grey", "Pink"};
+int menu_colors(void){
+    char choice[10];
+    char arr[7][7] = {"Green", "Red", "Blue", "Black", "White", "Pink", "Cyan"};
+    char fav_colour[10][7];
     int len = *(&arr + 1) - arr;
     printf("Choose a color from this list: \n");
     for (int i = 0; i < len; ++i){
         printf("%s  ", arr[i]);
     }
     printf("\nEnter a color's name please: ");
-    scanf("%s", ch);    
-
+    scanf("%s", choice);
+    
     for(int i = 0; i < len; ++i){
-        if (strcmp(ch, arr[i]) == 0){
+        if (strcmp(choice, arr[i]) == 0){
             printf("You choosed: %s\n", arr[i]);
             break;
         }
-        else {
-            continue;
-        }
         if (i == len - 1) {
-            printf("We have not this color: %s\n", ch);
-            break;
+            printf("Sorry, but we have not %s's color.\n", choice);
+            return 1;
         }
-
     }
+    return 0;
 }
+
+/*int menu_colors_2(void){
+    char sortir[1] = {"1"};
+    char choise[10][10];
+    char arr[7][7] = {"Green", "Red", "Blue", "Black", "White", "Pink", "Cyan"};
+    char fav_colour[10][7];
+    int len = *(&arr + 1) - arr;
+
+    printf("Choose a color from this list: \n");
+    for (int i = 0; i < len; ++i){
+        printf("%s  ", arr[i]);
+    }
+    printf("\nEnter a color's name please: ");
+    scanf(" %s", choice);
+
+    while(strcmp(choice, sortir) != 0){
+        
+        for (int i = 0; i < d)
+        printf("\nEnter a color's name please: ");
+        scanf(" %s", choice);
+    }
+
+    return 0;
+}*/
 
 void addTen(int *n){
     *n += 10;
 }
 
 void changeFonction(int *a, int *b){
-    *a = *a + *b;
-    *b = *a - *b;
-    *a = *a - *b;
+    *a = *a + *b;   // int tmp;
+    *b = *a - *b;   // tmp = *a;
+    *a = *a - *b;   // *a = *b;
+                    //*b = tmp;
 }
 
 int rock_papper_scissors(void){
@@ -143,13 +183,13 @@ int rock_papper_scissors(void){
 int LireInf2(void){
     int user_input;
     do {
-        printf("Choose between 0 - Rock, 1 - Papper, 2 - Scissors: ");
+        printf("Choose between: 0 - Rock; 1 - Papper; 2 - Scissors: \n");
         if (scanf("%d", &user_input) == 1 && user_input >= 0 && user_input <= 2) {
             return user_input;
         }
         printf("Invalid input. Please try again.\n");
 
-        while (getchar() != '\n'); // Clear input buffer
+        while (getchar() != '\n');  // Clear input buffer
     } while(1);
 }
 
@@ -174,12 +214,10 @@ void ten_times_rock_papper_scissors(void){
     for (int i = 0; i < 10; ++i) {
         int play = rock_papper_scissors();
 
-        if (play == 1) 
-            player1 += 1;
-        else if (play == 2) 
-            player2 += 1;
-        else 
-            continue;
+        if (play == 1) { player1 += 1; }
+        else if (play == 2) { player2 += 1; }
+        else { continue; }
     }
-    printf("Score total after 10 games: \nPlayer 1: %d \nPlayer 2: %d\n", player1, player2);
+    printf("Score total after 10 games: ");
+    printf("\nPlayer 1: %d \nPlayer 2: %d\n", player1, player2);
 }
