@@ -4,11 +4,13 @@
 
 void guess_secret_num(void);
 
+
 int main(void){
     // Guess secret random number from 0 to 1000
     guess_secret_num();
     return 0;
 }
+
 
 void guess_secret_num(void){
     time_t t1;  // declare time variable

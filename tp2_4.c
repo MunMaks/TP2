@@ -1,12 +1,15 @@
 #include <stdio.h>
 #include <string.h>
+
 int menu_colors(void);
+
 
 int main(void){
     int error = menu_colors();
     printf("Error message: %d\n", error);
     return 0;
 }
+
 
 int menu_colors(void){
     char choice[10];
@@ -19,16 +22,16 @@ int menu_colors(void){
     }
     printf("\nEnter a color's name please: ");
     scanf("%s", choice);
-    
-    for(int i = 0; i < len; ++i){
+    int i;
+    for(i = 0; i < len; ++i){
         if (strcmp(choice, arr[i]) == 0){
             printf("You choosed: %s\n", arr[i]);
             break;
         }
-        if (i == len - 1) {
-            printf("Sorry, but we have not %s's color.\n", choice);
-            return 1;
-        }
+    }
+    if (i == len) {
+        printf("Sorry, but we have not %s's color.\n", choice);
+        return 1;
     }
     return 0;
 }
