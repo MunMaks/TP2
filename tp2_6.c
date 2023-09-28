@@ -8,16 +8,17 @@ int arbitre(int *firstplayer, int *secondplayer);
 
 void ten_times_rock_papper_scissors(void);
 
+
 int main(void){
     
     // 1 game and 10 games of rock, papper, scissors
-    int player = rock_papper_scissors();
-    printf("Player-%d WON!\n", player);
+    // int player = rock_papper_scissors();
 
-    // ten_times_rock_papper_scissors();
+    ten_times_rock_papper_scissors();
 
     return 0;
 }
+
 
 int rock_papper_scissors(void){
     // caillou par 0, papier par 1 et ciseaux par 2.
@@ -33,7 +34,7 @@ int LireInf2(void){
     int user_input;
     do {
         printf("Choose between: 0 - Rock; 1 - Papper; 2 - Scissors: \n");
-        if (scanf("%d", &user_input) == 1 && user_input >= 0 && user_input <= 2) {
+        if (scanf(" %d", &user_input) == 1 && user_input >= 0 && user_input <= 2) {
             return user_input;
         }
         printf("Invalid input. Please try again.\n");
@@ -59,7 +60,7 @@ int arbitre(int *firstplayer, int *secondplayer){
 
 
 void ten_times_rock_papper_scissors(void){
-    int player1, player2;
+    int player1 = 0, player2 = 0;
     for (int i = 0; i < 10; ++i) {
         int play = rock_papper_scissors();
 
